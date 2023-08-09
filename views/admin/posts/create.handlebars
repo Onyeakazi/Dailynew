@@ -1,0 +1,60 @@
+<h1>Create Posts</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form action="/admin/posts/create" method="post" enctype="multipart/form-data">
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" class="form-control" id="title" placeholder="Enter Title" >
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="file">File Upload</label>
+                        <input type="file" name="file" class="form-control" id="file">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <label for="category">Category</label>
+                        <select name="category" id="status" class="form-control">
+                            {{#each categories}}
+                            <option value="{{_id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <label for="status">Status</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                            <option value="daft">Daft</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="body">Description</label>
+                    <textarea type="text" cols="30" rows="5" name="body" class="form-control" id="body" placeholder="Enter Description"></textarea>
+                </div>
+
+
+
+                <div class="form-group mb-3">
+                    <label for="allowComments">
+                        <input type="checkbox" name="allowComments" class="form-check-input" id="allowComments">
+                        Allow Comment
+                    </label>
+                </div>
+            </div>
+                <button type="submit" class="btn btn-primary">Create Post</button>
+        </form>
+    </div>
+</div>

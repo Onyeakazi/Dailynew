@@ -1,0 +1,64 @@
+<h1>Edit Posts</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form action="/admin/posts/edit/{{posts._id}}?_method=PUT" method="post" enctype="multipart/form-data">
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" class="form-control" id="title" value="{{posts.title}}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="file">File Upload</label>
+                        <input type="file" name="file" class="form-control" id="file">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <label for="category">Category</label>
+                        <select name="category" id="status" class="form-control">
+                            {{!-- handlebar helper function that holds selected item --}}
+                            {{#select posts.category}}
+                                {{!-- looping through the category and pulling them --}}
+                                {{#each categories}}
+                                    <option value="{{_id}}">{{name}}</option>
+                                {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <label for="status">Status</label>
+                        <select name="status" id="status" class="form-control">
+                            {{#select posts.status}}
+                                <option value="public">Public</option>
+                                <option value="private">Private</option>
+                                <option value="daft">Daft</option>
+                            {{/select}}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="body">Body</label>
+                    <textarea cols="30" rows="5" name="body" class="form-control" id="body">{{posts.body}}</textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="allowComments">
+                        <input type="checkbox" name="allowComments" {{#if posts.allowComments}} checked="checked" {{/if}} class="form-check-input" id="allowComments">
+                        Allow Comment
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Post</button>
+        </form>
+    </div>
+</div>
