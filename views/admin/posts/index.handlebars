@@ -1,40 +1,38 @@
 <h1>All posts</h1>
 
-<div class="card">
-    <div class="card-body">
-        <table class="table table-bordered table-hover mt-4">
 
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Post Image</th>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Status</th>
-                    <th>Allow Comments</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each posts}}
-                <tr>
-                    <td>{{_id}}</td>
-                    <td><img src="/uploads/{{file}}" width="90" alt="post-image"></td>
-                    <td>{{title}}</td>
-                    <td>{{category.name}}</td>
-                    <td>{{status}}</td>
-                    <td>{{allowComments}}</td>
-                    <td>{{generateDate date "MMMM Do YYYY"}}</td>
-                    <td><a href="/admin/posts/edit/{{_id}}" class="btn btn-info">Edit</a></td>
-                    <td>
-                        <form action="/admin/posts/{{_id}}?_method=DELETE" method="post">
-                            <button type="Submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-
-        </table>
-    </div>
-</div>
+<table class="table table-responsive" width="100">
+    <thead>
+        <tr>
+            <th>S/N</th>
+            <th>Post Image</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Allow Comments</th>
+            <th>View Post</th>
+            <th>Date</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {{#each posts}}
+            <tr>
+                <td>{{serialNumber}}</td>
+                <td><img src="/uploads/{{file}}" width="90" alt="post-image"></td>
+                <td>{{title}}</td>
+                <td>{{category.name}}</td>
+                <td>{{status}}</td>
+                <td>{{allowComments}}</td>
+                <td><a href="/post/{{slug}}">View</a></td>
+                <td>{{generateDate date "MMMM Do YYYY"}}</td>
+                <td><a href="/admin/posts/edit/{{_id}}" class="btn btn-info">Edit</a></td>
+                <td>
+                    <form action="/admin/posts/{{_id}}?_method=DELETE" method="post">
+                        <button type="Submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>

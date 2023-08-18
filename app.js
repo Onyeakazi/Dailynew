@@ -9,6 +9,7 @@ const upload = require("express-fileupload");
 const session = require("express-session");
 const flash = require("connect-flash");
 const {mongoDbUrl} = require("./config/database");
+const passport = require("passport");
 
 // Creating and connecting our mongo database
 mongoose.connect(mongoDbUrl).then((db) => {
@@ -49,10 +50,16 @@ app.use(session({
 // FLASH MIDDLEWARE
 app.use(flash());
 
-// Local variables using middleware
+// passport authentication initializer
+app.use(passport.initialize());
+app.use(passport.session());
+
+// local variables using middleware
 app.use((req, res, next) => {
+  res.locals.user = req.user || null;
   res.locals.success_message = req.flash("success_message");
   res.locals.error_message = req.flash("error_message");
+  res.locals.error = req.flash("error");
   next();
 })
 
@@ -61,12 +68,14 @@ const home = require("./routes/home/index");
 const admin = require("./routes/admin/index");
 const posts = require("./routes/admin/posts");
 const categories = require("./routes/admin/categories");
+const comments = require("./routes/admin/comments");
 
 // USE ROUTES
 app.use("/", home);
 app.use("/admin", admin);
 app.use("/admin/posts", posts);
 app.use("/admin/categories", categories);
+app.use("/admin/comments", comments);
 
 app.listen(3100, () => {
   console.log("listening on port 3100");

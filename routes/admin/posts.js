@@ -4,6 +4,7 @@ const Post = require("../../models/Post");
 const Category = require("../../models/Category");
 const { isEmpty, uploadDir } = require("../../helpers/upload-helper");
 const fs = require("fs");
+const {userAuthenticated} = require("../../helpers/authentication");
 
 router.all("/*", (req, res, next)=> {
     req.app.locals.layout = "admin";
@@ -17,9 +18,13 @@ router.get("/", (req, res) =>{
         .lean()
         .populate("category")
         .then(posts=>{
-        res.render("admin/posts", {posts: posts});
-    }).catch(error=> {
-        console.log(error);
+            // Add a serial number to each post object
+            posts.forEach((post, index) => {
+                post.serialNumber = index + 1;
+            });
+            res.render("admin/posts", {posts: posts});
+        }).catch(error=> {
+            console.log(error);
     });
 });
 
@@ -70,6 +75,7 @@ router.post("/create", (req, res) =>{
 
         const newPost = new Post({
         
+            user: req.user._id,
             title: req.body.title,
             status: req.body.status,
             allowComments: allowComments,
@@ -114,6 +120,7 @@ router.put("/edit/:id", (req, res)=> {
                 allowComments = false;
             }
 
+            posts.user = req.user._id;
             posts.title = req.body.title;
             posts.status = req.body.status;
             posts.allowComments = allowComments;
@@ -140,15 +147,24 @@ router.put("/edit/:id", (req, res)=> {
 // POST DELETE ROUTE
 router.delete("/:id", (req, res)=> {
     Post.findOneAndDelete({_id: req.params.id})
+        .populate("comments")
         .then(post => {
 
             fs.unlink(uploadDir + post.file, (err)=> {
-                req.flash("success_message", `Post was Deleted`);
-                res.redirect("/admin/posts");
+                
+                // checking the comment array
+                if(!post.comments.length < 1) {
+                    post.comments.forEach(comment=> {
+                        comment.deleteOne();
+                    });
+                }
+
+                post.deleteOne().then(removed=> {
+                    req.flash("success_message", `Post was Deleted`);
+                    res.redirect("/admin/posts");
+                });
             })
         });
 });
-
-
 
 module.exports = router;

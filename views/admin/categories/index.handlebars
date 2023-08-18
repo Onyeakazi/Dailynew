@@ -26,14 +26,14 @@
                 <table class="table table-hover mt-3">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>S/N</th>
                             <th>Name</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each categories}}
                         <tr>
-                            <td>{{_id}}</td>
+                            <td>{{serialNumber}}</td>
                             <td>{{name}}</td>
                             <td><a href="/admin/categories/edit/{{_id}}" class="btn btn-info">Edit</a></td>
                             <td>

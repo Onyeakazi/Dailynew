@@ -16,7 +16,9 @@ router.all("/*", (req, res, next)=> {
 router.get("/", (req, res) => {
 
     // Pulling the posts and category from the database and putting it in a variable
-    Post.find({}).lean().then(posts => {
+    Post.find({})
+        .lean()  
+        .then(posts => {
         Category.find({}).lean().then(categories => {
             res.render("home/index", {posts: posts, categories: categories});
         });
@@ -35,7 +37,6 @@ router.get("/login", (req, res) => {
 });
 
 // LOGIN PAGE ROUTE
-
 passport.use(new LocalStrategy({usernameField: "email"}, (email, password, done)=> {
     User.findOne({email: email}).then(user=> {
         if(!user) return done(null, false, {message: "No user found!"});
@@ -48,14 +49,24 @@ passport.use(new LocalStrategy({usernameField: "email"}, (email, password, done)
             } else {
                 return done(null, false, { message: "Incorrect password."});
             }
-
-            
         });
     })
 }));
 
-router.post("/login", (req, res, next) => {
+passport.serializeUser(function(user, done) {
+    done(null, user.id)
+});
 
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id).lean().then(user => {
+        done(null, user);
+    }) 
+});
+
+
+// login route
+router.post("/login", (req, res, next) => {
     // passport password authentication
     passport.authenticate("local", {
         successRedirect: "/admin",
@@ -63,6 +74,13 @@ router.post("/login", (req, res, next) => {
         failureFlash: true
     })(req, res, next);
 });
+
+// logout route
+router.get("/logout", (req, res)=> {
+    req.logOut(function() {
+        res.redirect("/login");
+    });
+})
   
 // REGISTER PAGE VIEW ROUTE
 router.get("/register", (req, res) => {
@@ -143,8 +161,12 @@ router.post("/register", (req, res) => {
 });
 
 // Single post Page ROUTE
-router.get("/post/:id", (req, res) => {
-    Post.findOne({_id: req.params.id}).lean().then(post=> {
+router.get("/post/:slug", (req, res) => {
+    Post.findOne({slug: req.params.slug})
+        .lean()
+        .populate({path: "comments", match: {approveComment: true}})
+        .populate("user")
+        .then(post=> {
             Category.find({}).lean().then(categories => {
             res.render("home/post", {post: post, categories: categories});
         });

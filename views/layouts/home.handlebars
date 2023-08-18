@@ -23,6 +23,9 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+
+    {{!-- Toastr CSS file --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -115,6 +118,53 @@
 
     <!-- Template Javascript -->
     <script src="/js/main.js"></script>
+
+    
+    {{!-- Jquery File --}}
+    <script src="/js/Jquery/jquery-3.6.4.js"></script>
+
+    {{!-- Toastr JS file --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Disable the Submit button on page load
+            $('#comment-btn')
+                .prop('disabled', true)
+                .css({
+                    opacity: 0.7,           // Reduce opacity
+                    cursor: 'not-allowed',  // Change cursor style
+                })
+                .addClass('hover-fade');   // Apply hover fade effect
+            $('#email').on('input', function() {
+                // Check if the entered email address is valid
+                if (isValidEmail($(this).val())) {
+                    $('#comment-btn')
+                        .prop('disabled', false)
+                        .css({
+                            opacity: 1,              // Restore opacity
+                            cursor: 'pointer'     // Change cursor style
+                        })
+                        .removeClass('hover-fade'); // Remove hover fade effect
+                } else {
+                    $('#comment-btn')
+                        .prop('disabled', true)
+                        .css({
+                            opacity: 0.7,           // Reduce opacity
+                            cursor: 'not-allowed',   // Change cursor style
+                    })
+                    .addClass('hover-fade');   // Apply hover fade effect
+                }
+            });
+
+            // Function to validate email address
+            function isValidEmail(email) {
+                // You can implement your own email validation logic here
+                // For simplicity, I'm using a basic check
+                return /\S+@\S+\.\S+/.test(email);
+            }
+        });
+    </script>
 </body>
 
 </html>

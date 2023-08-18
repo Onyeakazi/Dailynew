@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Category = require("../../models/Category");
+const {userAuthenticated} = require("../../helpers/authentication");
 
 router.all("/*", (req, res, next)=> {
     req.app.locals.layout = "admin";
@@ -12,6 +13,10 @@ router.get("/", (req, res) => {
     Category.find({})
         .lean()
         .then(categories => {
+            // Add a serial number to each categories object
+            categories.forEach((categorie, index) => {
+                categorie.serialNumber = index + 1;
+            });
             res.render("admin/categories/index", {categories: categories});
         });
 });
@@ -55,8 +60,8 @@ router.delete("/:id", (req, res)=> {
     Category.findOneAndDelete({_id: req.params.id}).then(result=> {
         req.flash("success_message", "Category has being deleted!");
         res.redirect("/admin/categories");
-    })
-})
+    });
+});
 
 
 module.exports = router;

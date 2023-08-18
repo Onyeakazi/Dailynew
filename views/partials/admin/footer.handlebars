@@ -1,0 +1,111 @@
+<!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>DailyNews</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      Designed by <a href="https://bit.ly/Chiemena">Onyitechs</a>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="/css/apexcharts/apexcharts.min.js"></script>
+  <script src="/css/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/css/chart.js/chart.umd.js"></script>
+  <script src="/css/echarts/echarts.min.js"></script>
+  <script src="/css/quill/quill.min.js"></script>
+  <script src="/css/simple-datatables/simple-datatables.js"></script>
+  <script src="/css/tinymce/tinymce.min.js"></script>
+
+  {{!-- Jquery File --}}
+  <script src="/js/Jquery/jquery-3.6.4.js"></script>
+
+  {{!-- Main js File --}}
+  <script src="/js/admin-js-main.js"></script>
+
+  {{!-- Bootstrap Switch Button Js File--}}
+  <script src="/js/bootstrap-switch-button.js"></script>
+
+  {{!-- Toastr JS file --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+
+    $(document).ready(()=> {
+
+      // Target the checkbox input element
+      const checkbox = $('td input[type="checkbox"]');
+
+      // Add an event listener for the change event
+      checkbox.on('change', function(){
+          // Get the status of the switch button
+          const isChecked = checkbox.prop('checked');
+          const status = isChecked ? 'approved' : 'unapproved';
+          const id = $(this).attr("data-id");
+
+
+          $.ajax({
+
+            type: "POST",
+            url: "/admin/comments/approve-comment",
+            data: {id: id, approveComment: isChecked},
+            cache: false,
+            success: function(data){
+                toastr.success(`${data.name}'s comment was ${status}`);
+            }
+
+          });
+
+      });
+    });
+      
+  </script>
+
+  <!-- Start Bar CHart -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      new Chart(document.querySelector('#barChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Posts', 'Categories', 'Total Comments', 'Approved Comments', 'Unapproved Comments'],
+          datasets: [{
+            label: 'Reviews',
+            data: [{{postCount}}, {{catCount}}, {{comCount}}, {{approvedComCount}}, {{unapprovedComCount}}],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(255, 205, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+              'rgb(201, 203, 207)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    });
+  </script>
+  <!-- End Bar CHart -->
+
+</body>
+
+</html>
