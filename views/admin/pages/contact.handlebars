@@ -1,0 +1,39 @@
+<h1>Contact Page</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form action="/admin/pages/edit" method="post" enctype="multipart/form-data">
+            <!-- Add a hidden input field for the page ID -->
+            <input type="hidden" name="pageId" value="{{page._id}}">
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="location" class="fw-bold">Location</label>
+                        <input type="text" name="location" class="form-control" id="location" value="{{page.location}}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for "email" class="fw-bold">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" value="{{page.email}}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="phone" class="fw-bold">Phone</label>
+                        <input type="text" name="phone" class="form-control" id="phone" value="{{page.phone}}">
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="contact_info" class="fw-bold">Contact Info</label>
+                    <textarea cols="30" rows="5" name="contact_info" class="form-control" id="contact_info">{{page.contact_info}}</textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-collection"></i> Update Page</button>
+        </form>
+    </div>
+</div>

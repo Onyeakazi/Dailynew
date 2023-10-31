@@ -1,17 +1,42 @@
+{{!-- Error_message Alert --}}
 {{#if error}}
     <div class="alert alert-danger">
         {{error}}
+        <!-- Add an icon for hiding the flash message -->
+        <i class="fas fa-times" style="position: absolute; top: 16px; right: 13px; cursor: pointer;"></i>
     </div>
 {{/if}}
 
-{{#if error_message}}
-    <div class="alert alert-danger">
-        {{error_message}}
-    </div>
-{{/if}}
-
+{{!-- success_message Alert --}}
 {{#if success_message}}
     <div class="alert alert-success">
         {{success_message}}
+        <!-- Add an icon for hiding the flash message -->
+        <i class="fas fa-times" style="position: absolute; top: 16px; right: 13px; cursor: pointer;"></i>
     </div>
 {{/if}}
+
+<!-- JavaScript to handle flash message hiding -->
+<script>
+    // Function to hide the flash message
+    function hideFlashMessage() {
+        this.parentElement.style.display = "none";
+    }
+
+    // Automatically close the alerts after a specified time
+    const timeoutDuration = 4000; // Adjust the duration as needed
+
+    // Add event listeners to hide icons
+    const hideIcons = document.querySelectorAll(".fa-times");
+    hideIcons.forEach((icon) => {
+        icon.addEventListener("click", hideFlashMessage);
+    });
+
+    // Automatically close the alerts after the specified time
+    const flashMessages = document.querySelectorAll(".alert");
+    flashMessages.forEach((message) => {
+        setTimeout(() => {
+            message.style.display = "none";
+        }, timeoutDuration);
+    });
+</script>

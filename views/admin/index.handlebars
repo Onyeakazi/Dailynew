@@ -1,15 +1,106 @@
-<div class="row">
-    <h1>Create Posts</h1>
+<section class="section dashboard">
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="card info-card sales-card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li><a class="dropdown-item" href="/admin/posts">All Post</a></li>
+                        <li><a class="dropdown-item" href="/admin/posts/draft-posts">Draft Posts</a></li>
+                        <li><a class="dropdown-item" href="/admin/posts/public-posts">Public Posts</a></li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">NEWS POSTS</h5>
+                    <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-postcard"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6>{{postCount}}</h6>
+                        <span class="text-muted small pt-2 ps-1">Total News Posts</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/.col-->
 
-    <form action="/admin/generate-fake-posts" method="post">
-        <div class="form-group">
-            <input name="amount" type="number" class="form-control">
-        </div>
-        <br>
-        <button type="submit">Create</button>
-    </form>
-</div>
+        {{!-- COMMENT COUNT ADMIN OVER VIEW --}}
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="card info-card sales-card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li><a class="dropdown-item" href="/admin/comments">All Comments</a></li>
+                    <li><a class="dropdown-item" href="/admin/comments/approved-comments">Approved Comments</a></li>
+                    <li><a class="dropdown-item" href="/admin/comments/unapproved-comments">Unapproved Comments</a></li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">COMMENTS</h5>
+                    <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-chat-dots"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6>{{comCount}}</h6>
+                        <span class="text-muted small pt-2 ps-1">Total Comments</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/.col-->
 
+        {{!-- CATEGORY COUNT ADMIN OVER VIEW --}}
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="card info-card sales-card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li><a class="dropdown-item" href="/admin/categories">View Categories</a></li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">CATEGORIES</h5>
+                    <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-grid-3x3-gap-fill"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6>{{catCount}}</h6>
+                        <span class="text-muted small pt-2 ps-1">All Categories</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/.col-->
+
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="card info-card sales-card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li><a class="dropdown-item" href="/admin/accounts">All Users</a></li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">USERS</h5>
+                    <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6>{{userCount}}</h6>
+                        <span class="text-muted small pt-2 ps-1">Total Registered Users</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/.col-->
+    </div><!--/.row-->
+</section>
+
+{{!-- Chart --}}
 <div class="row">
     <canvas id="barChart" style="max-height: 400px;"></canvas>
 </div>

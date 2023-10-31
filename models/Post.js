@@ -12,7 +12,21 @@ const PostSchema = new Schema({
     category: {
         type: Schema.Types.ObjectId,
         ref: "categories"
-    }, 
+    },
+    
+    news: {
+        type: String
+    },
+
+    comment: {
+        type: Schema.Types.ObjectId,
+        ref: "comments"
+    },
+    
+    replies: {
+        type: Schema.Types.ObjectId,
+        ref: "replies"
+    },
 
     title: {
         type: String,
@@ -22,11 +36,12 @@ const PostSchema = new Schema({
 
     status: {
         type: String,
-        default: "public"
+        default: "draft"
     }, 
 
     allowComments: {
         type: Boolean,
+        default: true,
         required: true
     }, 
 
@@ -37,6 +52,8 @@ const PostSchema = new Schema({
 
     file: {
         type: String,
+        default: 'placeholder.png',
+        required: true
     },
 
     date: {
@@ -54,6 +71,9 @@ const PostSchema = new Schema({
     }]
 
 }, {usePushEach: true});
+
+// Create a text index on the content field
+PostSchema.index({ title: "text", body: "text", email: "text"});
 
 // Define a custom function to generate the slug
 function generateSlug(title) {

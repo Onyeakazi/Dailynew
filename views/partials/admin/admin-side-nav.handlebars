@@ -1,27 +1,76 @@
 <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
-
       <li class="nav-item">
         <a class="nav-link " href="/admin">
           <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
+          <span  title="User Dashboard">Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-postcard"></i><span>Posts</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-postcard"></i><span  title="News">News</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="/admin/posts">
-              <i class="bi bi-circle"></i><span>All Posts</span>
+              <i class="bi bi-circle"></i><span>All News</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/posts/highlight_news">
+              <i class="bi bi-circle"></i><span>Highlight News</span>
+            </a>
+            <a href="/admin/posts/side_highlight_news">
+              <i class="bi bi-circle"></i><span>Sidebar Highlight News</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/posts/breaking_news">
+              <i class="bi bi-circle"></i><span>Breaking News</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/posts/featured_news">
+              <i class="bi bi-circle"></i><span>Featured News</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/posts/latest_news">
+              <i class="bi bi-circle"></i><span>Latest News</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/posts/trending_news">
+              <i class="bi bi-circle"></i><span>Trending News</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/posts/popular_news">
+              <i class="bi bi-circle"></i><span>Popular News</span>
             </a>
           </li>
           <li>
             <a href="/admin/posts/create">
-              <i class="bi bi-circle"></i><span>Create Posts</span>
+              <i class="bi bi-circle"></i><span>Create News Posts</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Posts Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav2" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-book"></i><span  title="News">Pages</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="/admin/pages/about">
+              <i class="bi bi-circle"></i><span>About page</span>
+            </a>
+          </li>
+          <li>
+            <a href="/admin/pages/contact">
+              <i class="bi bi-circle"></i><span>Contact page</span>
             </a>
           </li>
         </ul>
@@ -30,23 +79,36 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="/admin/categories">
           <i class="bi bi-grid-3x3-gap-fill"></i>
-          <span>Categories</span>
+          <span  title="Categories">Categories</span>
         </a>
       </li><!-- End category Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="/admin/comments">
-          <i class="bi bi-grid-3x3-gap-fill"></i>
-          <span>Comment</span>
+          <i class="bi bi-chat-dots"></i>
+          <span  title="Comments">Comment</span>
         </a>
       </li><!-- End comment Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+        <a class="nav-link collapsed" href="/admin/replies">
+          <i class="bi bi-chat-left-quote-fill"></i>
+          <span  title="replies">Comment Repiles</span>
+        </a>
+      </li><!-- End comment Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/admin/accounts">
+          <i class="bi bi-people"></i>
+          <span  title="View Accounts">Users</span>
+        </a>
+      </li><!-- End comment Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/admin/user">
           <i class="bi bi-person"></i>
-          <span>Profile</span>
+          <span title="My Account">Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
     </ul>
-
   </aside>

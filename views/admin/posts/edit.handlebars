@@ -1,26 +1,19 @@
-<h1>Edit Posts</h1>
+<h1>Edit News Post</h1>
 
 <div class="card">
     <div class="card-body">
-        <form action="/admin/posts/edit/{{posts._id}}?_method=PUT" method="post" enctype="multipart/form-data">
+        <form action="/admin/posts/edit/{{posts.slug}}?_method=PUT" method="post" enctype="multipart/form-data">
             <div class="row mt-4">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="title">Title</label>
+                        <label for="title" class="fw-bold">Title</label>
                         <input type="text" name="title" class="form-control" id="title" value="{{posts.title}}">
                     </div>
                 </div>
 
                 <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label for="file">File Upload</label>
-                        <input type="file" name="file" class="form-control" id="file">
-                    </div>
-                </div>
-
-                <div class="col-md-6">
                     <div class="form-group mb-2">
-                        <label for="category">Category</label>
+                        <label for="category" class="fw-bold">Category</label>
                         <select name="category" id="status" class="form-control">
                             {{!-- handlebar helper function that holds selected item --}}
                             {{#select posts.category}}
@@ -35,30 +28,78 @@
 
                 <div class="col-md-6">
                     <div class="form-group mb-2">
-                        <label for="status">Status</label>
+                        <label for="news" class="fw-bold">News</label>
+                        <select name="news" id="status" class="form-control">
+                            {{!-- handlebar helper function that holds selected item --}}
+                            {{#select posts.news}}
+                                <option value="highlight_news">Highlight News</option>
+                                <option value="side_highlight_news">Sidebar Highlight News</option>
+                                <option value="breaking_news">Breaking News</option>
+                                <option value="popular_news">Popular News</option>
+                                <option value="featured_news">Featured News</option>
+                                <option value="latest_news">Latest News</option>
+                                <option value="trending_news">Trending News</option>
+                            {{/select}}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
+                        <label for="status" class="fw-bold">Status</label>
                         <select name="status" id="status" class="form-control">
                             {{#select posts.status}}
                                 <option value="public">Public</option>
-                                <option value="private">Private</option>
-                                <option value="daft">Daft</option>
+                                <option value="draft">Draft</option>
+                                <option value="unpublished">Unpublish</option>
                             {{/select}}
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="body">Body</label>
+                    <label for="body" class="fw-bold">Body</label>
                     <textarea cols="30" rows="5" name="body" class="form-control" id="body">{{posts.body}}</textarea>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="allowComments">
+                    <label for="allowComments" class="fw-bold">
                         <input type="checkbox" name="allowComments" {{#if posts.allowComments}} checked="checked" {{/if}} class="form-check-input" id="allowComments">
                         Allow Comment
                     </label>
                 </div>
+                
+                <div class="col-md-6">
+                    <style>
+                        /* Custom styling for the file input */
+                        .custom-file-label::after {
+                            content: "Browse"; /* Change the label text */
+                        }
+                        /* Style the image preview container */
+                        .image-preview {
+                            text-align: center;
+                            margin-top: 10px;
+                        }
+                        /* Style the default image */
+                        .default-image {
+                            border: 1px solid #ccc;
+                            padding: 5px;
+                            margin-right: 100%; 
+                        }
+                    </style>
+                    <div class="form-group mb-3">
+                        <label for="file" class="fw-bold">Choose File To Upload</label>
+                        <div class="image-preview mt-2 mb-2">
+                            <img id="image-preview" width="100" class="default-image" src="/img/{{posts.file}}" alt="Profile">
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" name="file" accept="image/*" id="inpfile" class="custom-file-input" style="display: none ">
+                        </div>
+                        <button type="button" id="profile_upload-btn" class="btn btn-success">Choose File</button>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Update Post</button>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-collection"></i> Update News Posts</button>
         </form>
     </div>
 </div>

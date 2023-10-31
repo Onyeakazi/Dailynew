@@ -1,4 +1,3 @@
-
 <div class="row">
     <h1>Create Category</h1>
     <div class="col-md-7">
@@ -10,7 +9,7 @@
                         <input type="text" name="name" class="form-control" placeholder="Enter Title">
                     </div>
 
-                    <button class="btn btn-primary mt-3 ">Create Category</button>
+                    <button class="btn btn-primary mt-3 "><i class="bi bi-check-circle"></i> Create Category</button>
                 </form> 
             </div>
         </div>
@@ -32,16 +31,18 @@
                     </thead>
                     <tbody>
                         {{#each categories}}
-                        <tr>
-                            <td>{{serialNumber}}</td>
-                            <td>{{name}}</td>
-                            <td><a href="/admin/categories/edit/{{_id}}" class="btn btn-info">Edit</a></td>
-                            <td>
-                                <form action="/admin/categories/{{_id}}?_method=DELETE" method="post">
-                                    <button class="btn btn-danger">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{serialNumber}}</td>
+                                <td>{{name}}</td>
+                                <td><a href="/admin/categories/edit/{{slug}}" class="btn btn-info"><i class="bi bi-exclamation-triangle"></i> Edit</a></td>
+                                <td>
+                                    <form action="/admin/categories/{{slug}}?_method=DELETE" method="post">
+                                        <button class="btn btn-danger">Delete <i class="bi bi-exclamation-octagon"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {{else}}
+                            <h1 class="text-bold text-bg-danger text-center">No Categories found.</h1>
                         {{/each}}
                     </tbody>
                 </table>
@@ -49,3 +50,8 @@
         </div>
     </div>
 </div>
+
+<!-- Display pagination controls -->
+<ul class="pagination">
+    {{#paginate current=current pages=pages}}{{/paginate}}
+</ul>

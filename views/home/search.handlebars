@@ -1,0 +1,52 @@
+<div class="container-fluid mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Search Results</h4>
+                        </div>
+                    </div>
+                    {{#if searchResults.length}}
+                        {{#each searchResults}}
+                            <div class="col-lg-6">
+                                <div class="position-relative mb-3">
+                                    <!-- Replace the image source with your actual image source -->
+                                    <img class="img-fluid w-100" src="/img/{{file}}" style="object-fit: cover;">
+                                    <div class="bg-white border border-top-0 p-4">
+                                        <div class="mb-2">
+                                            <!-- Display category and date here -->
+                                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                                href="/category/{{category._id}}">{{category.name}}</a>
+                                            <a class="text-body" href="#"><small>{{date}}</small></a>
+                                        </div>
+                                        <!-- Display title and content here -->
+                                        <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="/post/{{slug}}">{{title}}</a>
+                                        <p class="m-0">{{content}}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                                        <div class="d-flex align-items-center">
+                                            <!-- Display user's profile image and name here -->
+                                            <img class="rounded-circle mr-2" src="/uploads/{{user.file}}" width="25" height="25" alt="">
+                                            <small>{{user.firstName}} {{user.lastName}}</small>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <!-- Display view count and comment count here -->
+                                            <small class="ml-3"><i class="far fa-eye mr-2"></i>{{viewsCount}}</small>
+                                            <small class="ml-3"><i class="far fa-comment mr-2"></i>{{approvedComCount}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                    {{else}}
+                        <p>No results found.</p>
+                    {{/if}}
+                </div>
+            </div>
+            {{!-- Sidebar --}}
+            {{> home/sidebar}}
+        </div>
+    </div>
+</div>

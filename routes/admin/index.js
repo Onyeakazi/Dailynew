@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const faker = require("faker");
 const Post = require("../../models/Post");
+const User = require("../../models/User");
 const Category = require("../../models/Category");
 const Comment = require("../../models/Comment");
 const {userAuthenticated} = require("../../helpers/authentication");
@@ -13,32 +13,41 @@ router.all("/*", (req, res, next)=> {
 });
 
 // Admin Dashboard view router
-router.get("/", (req, res) => {
-    Post.count({}).then(postCount=> {
-        Category.count({}).then(catCount=> {
-            Comment.count({}).then(comCount=> {
-                Comment.count({ approveComment: true }).then(approvedComCount => {
-                    Comment.count({ approveComment: false }).then(unapprovedComCount => {
-                        res.render("admin/index", {postCount: postCount, catCount: catCount, comCount: comCount, approvedComCount: approvedComCount, unapprovedComCount: unapprovedComCount });
-                    });
-                });
-            });
+router.get("/", userAuthenticated, (req, res) => {
+    // MODIFIED CODE
+    const promises = [
+        User.count().exec(),
+        Post.count().exec(),
+        Category.count().exec(),
+        Comment.count().exec(),
+        Comment.count({ approveComment: true }).exec(),
+        Comment.count({ approveComment: false }).exec()
+    ];
+
+    Promise.all(promises).then(([ userCount, postCount, catCount, comCount, approvedComCount, unapprovedComCount]) => {
+        res.render("admin/index", {
+            userCount: userCount, 
+            postCount: postCount, 
+            catCount: catCount, 
+            comCount: comCount, 
+            approvedComCount: approvedComCount, 
+            unapprovedComCount: unapprovedComCount
         });
-    });
-});
+    })
 
-router.post("/generate-fake-posts", (req, res)=>{
-    for(let i = 0; i < req.body.amount; i++) {
-        let post = new Post();
 
-        post.title = faker.name.title();
-        post.status = "public";
-        post.allowComments = faker.datatype.boolean();
-        post.body = faker.lorem.sentence();
-
-        post.save();
-    }
-    res.redirect("/admin/posts"); 
+    // oLD CODE
+    // Post.count({}).then(postCount=> {
+    //     Category.count({}).then(catCount=> {
+    //         Comment.count({}).then(comCount=> {
+    //             Comment.count({ approveComment: true }).then(approvedComCount => {
+    //                 Comment.count({ approveComment: false }).then(unapprovedComCount => {
+    //                     res.render("admin/index", {postCount: postCount, catCount: catCount, comCount: comCount, approvedComCount: approvedComCount, unapprovedComCount: unapprovedComCount });
+    //                 });
+    //             });
+    //         });
+    //     });
+    // });
 });
 
 module.exports = router;

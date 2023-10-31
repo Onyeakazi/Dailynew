@@ -8,8 +8,8 @@ const methodOverride = require("method-override");
 const upload = require("express-fileupload");
 const session = require("express-session");
 const flash = require("connect-flash");
-const {mongoDbUrl} = require("./config/database");
 const passport = require("passport");
+const {mongoDbUrl} = require("./config/database");
 
 // Creating and connecting our mongo database
 mongoose.connect(mongoDbUrl).then((db) => {
@@ -19,11 +19,24 @@ mongoose.connect(mongoDbUrl).then((db) => {
 app.use(express.static(path.join(__dirname, "public")));
 
 // Create an instance of the handlebars engine with the options
-const {select, generateDate} = require("./helpers/handlebars-helpers");
-
+const {select, generateDate, paginate, eq} = require("./helpers/handlebars-helpers");
 const hbs = exphbs.create({ 
-  defaultLayout: "home", helpers: {select: select, generateDate: generateDate},
+  defaultLayout: "home", helpers: {select: select, generateDate: generateDate, paginate: paginate, eq: eq},
   partialsDir: path.join(__dirname, "views", "partials")
+});
+
+// JavaScript helper function to truncate text
+function truncateText(text, maxLength) {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';
+  } else {
+    return text;
+  }
+}
+// Register the truncateText helper function with Handlebars
+const handlebars = require('handlebars');
+handlebars.registerHelper('truncateText', function (text, maxLength) {
+  return new handlebars.SafeString(truncateText(text, maxLength));
 });
 
 // Set the view engine to use the handlebars instance
@@ -69,6 +82,10 @@ const admin = require("./routes/admin/index");
 const posts = require("./routes/admin/posts");
 const categories = require("./routes/admin/categories");
 const comments = require("./routes/admin/comments");
+const replies = require("./routes/admin/replies");
+const users = require("./routes/admin/user");
+const accounts = require("./routes/admin/accounts");
+const pages = require("./routes/admin/pages");
 
 // USE ROUTES
 app.use("/", home);
@@ -76,6 +93,10 @@ app.use("/admin", admin);
 app.use("/admin/posts", posts);
 app.use("/admin/categories", categories);
 app.use("/admin/comments", comments);
+app.use("/admin/replies", replies);
+app.use("/admin/user", users);
+app.use("/admin/accounts", accounts);
+app.use("/admin/pages", pages);
 
 app.listen(3100, () => {
   console.log("listening on port 3100");

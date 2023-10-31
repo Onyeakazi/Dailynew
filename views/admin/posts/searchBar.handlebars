@@ -1,0 +1,30 @@
+<h1 class="text-bold">Search Results</h1>
+<table class="table datatable" width="100">
+    <thead>
+        <tr>
+            <th>S/N</th>
+            <th>News Post Image</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Allow Comments</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each posts}}
+            <tr>
+                <td>{{serialNumber}}</td>
+                <td><img src="/img/{{file}}" width="90" alt="post-image"></td>
+                <td class="text-primary fw-bold">{{title}}</td>
+                <td>{{category.name}}</td>
+                <td class="fw-bold {{statusClass}}">{{status}}</td>
+                <td>{{allowComments}}</td>
+                <td><a href="/post/{{slug}}">View</a></td>
+                <td>{{generateDate date "MMMM Do YYYY"}}</td>
+            </tr>
+        {{else}}
+            <h1 class="text-bold text-bg-danger text-center">No Results found.</h1>
+        {{/each}}
+    </tbody>
+</table>

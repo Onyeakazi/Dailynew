@@ -9,7 +9,7 @@
     <meta content="Your every day news website." name="description">
 
     <!-- Favicon -->
-    <link href="/img/favicon.ico" rel="icon">
+    <link href="/img/favicon.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -26,9 +26,18 @@
 
     {{!-- Toastr CSS file --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spinkit/1.2.5/spinkit.min.css">
+
 </head>
 
 <body>
+   {{!-- //preloader --}}
+   <div class="preloader">
+        <span class="loader"></span>
+   </div>
+
+
     <!-- Topbar Start -->
     <div class="container-fluid d-none d-lg-block">
         <div class="row align-items-center bg-dark px-lg-5">
@@ -36,9 +45,9 @@
                 <nav class="navbar navbar-expand-sm bg-dark p-0">
                     <ul class="navbar-nav ml-n2">
                         <li class="nav-item border-right border-secondary">
-                            <a class="nav-link text-body small" href="#">Thursday, July 20, 2023</a>
+                            <a class="nav-link text-body small">{{generateDate date "MMMM Do YYYY"}}</a>
                         </li>
-                        <li class="nav-item border-right border-secondary">
+                        {{!-- <li class="nav-item border-right border-secondary">
                             <a class="nav-link text-body small" href="#">Advertise</a>
                         </li>
                         <li class="nav-item border-right border-secondary">
@@ -47,9 +56,10 @@
                         <li class="nav-item border-right border-secondary">
                             <a class="nav-link text-body small" href="/login">Login</a>
                         </li>
+                        --}}
                         <li class="nav-item">
                             <a class="nav-link text-body small" href="/admin">Admin</a>
-                        </li>
+                        </li> 
                     </ul>
                 </nav>
             </div>
@@ -81,7 +91,8 @@
         <div class="row align-items-center bg-white py-3 px-lg-2">
             <div class="col-lg-6">
                 <a href="/" class="navbar-brand p-0 d-none d-lg-block">
-                    <h1 class="m-0 display-4 text-uppercase text-primary">Daily<span class="text-secondary font-weight-normal">News</span></h1>
+                    {{!-- <h1 class="m-0 display-4 text-uppercase text-primary">Daily<span class="text-secondary font-weight-normal">News</span></h1> --}}
+                    <img width="400" height="70" src="/img/Dailynews_logo.png" alt="">
                 </a>
             </div>
            
@@ -118,14 +129,52 @@
 
     <!-- Template Javascript -->
     <script src="/js/main.js"></script>
-
-    
     {{!-- Jquery File --}}
     <script src="/js/Jquery/jquery-3.6.4.js"></script>
 
     {{!-- Toastr JS file --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    {{!-- Comment reply js --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const replyButtons = document.querySelectorAll('.reply-button');
+
+            replyButtons.forEach(replyButton => {
+                replyButton.addEventListener('click', () => {
+                    const commentId = replyButton.getAttribute('data-comment-id');
+                    const replyForm = document.querySelector(`.reply-form[data-comment-id="${commentId}"]`);
+
+                    if (replyForm) {
+                        if (replyForm.style.display === 'block') {
+                            replyForm.style.display = 'none';
+                        } else {
+                            replyForm.style.display = 'block';
+                            const replyInput = replyForm.querySelector('input[name="reply-body"]');
+                            replyInput.focus();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // JavaScript to hide the preloader with a delay
+        window.addEventListener('load', () => {
+            // Delay in milliseconds (2 seconds)
+            const delay = 900;
+            // Select the preloader element
+            const preloader = document.querySelector('.preloader');
+            // Hide the preloader after the delay
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, delay);
+        });
+    </script>
+
+
+    {{!-- COMMENT BUTTON --}}
     <script>
         $(document).ready(function() {
             // Disable the Submit button on page load
@@ -159,12 +208,13 @@
 
             // Function to validate email address
             function isValidEmail(email) {
-                // You can implement your own email validation logic here
                 // For simplicity, I'm using a basic check
                 return /\S+@\S+\.\S+/.test(email);
             }
         });
     </script>
+
+    
 </body>
 
 </html>

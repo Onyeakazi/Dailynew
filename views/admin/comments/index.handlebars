@@ -1,31 +1,38 @@
 <h1>Comments</h1>
 
-
-
 <table class="table">
     <thead>
         <tr>
             <th>S/N</th>
             <th>Author</th>
             <th>Status</th>
+            <th>Comments</th>
             <th>Email</th>
             <th>Date</th>
         </tr>
     </thead>
     <tbody>
         {{#each comments}}
-        <tr>
-            <th scope="row">{{serialNumber}}</th>
-            <td>{{name}}</td>
-            <td><input {{#if approveComment}} checked {{/if}} id="chkSwitch1" type="checkbox" name="approveComment" data-id="{{_id}}" data-onlabel="Approved" data-width="120" data-height="5" data-offlabel="Unapproved" data-style="ios" data-toggle="switchbutton" data-onstyle="light" data-offstyle="danger"></td>
-            <td>{{email}}</td>
-            <td>{{generateDate date "MMMM Do YYYY"}}</td>
-            <td>
-                <form action="/admin/comments/{{_id}}?_method=DELETE" method="post">
-                    <button type="Submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-        </tr>
+            <tr>
+                <th scope="row">{{serialNumber}}</th>
+                <td>{{name}}</td>
+                <td><input {{#if approveComment}} checked {{/if}} id="chkSwitch1" type="checkbox" name="approveComment" data-id="{{_id}}" data-onlabel="Approved" data-width="120" data-height="5" data-offlabel="Unapproved" data-style="ios" data-toggle="switchbutton" data-onstyle="light" data-offstyle="danger"></td>
+                <td><a href="/admin/comments/view_comment/{{slug}}" class="btn btn-outline-secondary"><i class="bi bi-folder"></i> View Comment</a></td>
+                <td>{{email}}</td>
+                <td>{{generateDate date "MMMM Do YYYY"}}</td>
+                <td>
+                    <form action="/admin/comments/{{_id}}?_method=DELETE" method="post">
+                        <button type="Submit" class="btn btn-danger">Delete <i class="bi bi-exclamation-octagon"></i></button>
+                    </form>
+                </td>
+            </tr>
+        {{else}}
+            <h1 class="text-bold text-bg-danger text-center">No Comments found.</h1>
         {{/each}}
     </tbody>
 </table>
+
+<!-- Display pagination controls -->
+<ul class="pagination">
+    {{#paginate current=current pages=pages}}{{/paginate}}
+</ul>

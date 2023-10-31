@@ -1,13 +1,50 @@
-{{#each errors}}
-
+{{#if error}}
     <div class="alert alert-danger">
-        {{message}}
+        {{error}}
+        <!-- Add an icon for hiding the flash message -->
+        <i id="hideIcon" class="bi bi-x" style="position: absolute; top: 16px; right: 13px; cursor: pointer;"></i>
     </div>
+        
+{{/if}}
 
-{{/each}}
+{{#if error_message}}
+    <div class="alert alert-danger">
+        {{error_message}}
+        <!-- Add an icon for hiding the flash message -->
+        <i id="hideIcon" class="bi bi-x" style="position: absolute; top: 16px; right: 13px; cursor: pointer;"></i>
+    </div>
+{{/if}}
 
 {{#if success_message}}
     <div class="alert alert-success">
         {{success_message}}
+        <!-- Add an icon for hiding the flash message -->
+        <i id="hideIcon" class="bi bi-x" style="position: absolute; top: 16px; right: 13px; cursor: pointer;"></i>
     </div>
 {{/if}}
+
+
+{{!-- Icon message toggle --}}
+<script>
+     // Function to hide the flash message
+    function hideFlashMessage() {
+        this.parentElement.style.display = "none";
+    }
+
+    // Automatically close the alerts after a specified time
+    const timeoutDuration = 4000; // Adjust the duration as needed
+
+    // Add event listeners to hide icons
+    const hideIcons = document.querySelectorAll(".bi-x");
+    hideIcons.forEach((icon) => {
+        icon.addEventListener("click", hideFlashMessage);
+    });
+
+    // Automatically close the alerts after the specified time
+    const flashMessages = document.querySelectorAll(".alert");
+    flashMessages.forEach((message) => {
+        setTimeout(() => {
+            message.style.display = "none";
+        }, timeoutDuration);
+    });
+</script>

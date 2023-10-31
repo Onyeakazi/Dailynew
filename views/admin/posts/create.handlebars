@@ -1,4 +1,4 @@
-<h1>Create Posts</h1>
+<h1>Create News Post</h1>
 
 <div class="card">
     <div class="card-body">
@@ -11,12 +11,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label for="file">File Upload</label>
-                        <input type="file" name="file" class="form-control" id="file">
-                    </div>
-                </div>
 
                 <div class="col-md-6">
                     <div class="form-group mb-2">
@@ -31,11 +25,25 @@
 
                 <div class="col-md-6">
                     <div class="form-group mb-2">
+                        <label for="news">News Field</label>
+                        <select name="news" id="status" class="form-control">
+                            <option value="highlight_news">Highlight News</option>
+                            <option value="Side_highlight_news">Side Highlight News</option>
+                            <option value="popular_news">Popular News</option>
+                            <option value="breaking_news">Breaking News</option>
+                            <option value="featured_news">Featured News</option>
+                            <option value="latest_news">Latest News</option>
+                            <option value="trending_news">Trending News</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-2">
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
                             <option value="public">Public</option>
-                            <option value="private">Private</option>
-                            <option value="daft">Daft</option>
+                            <option value="draft">Draft</option>
                         </select>
                     </div>
                 </div>
@@ -44,17 +52,72 @@
                     <label for="body">Description</label>
                     <textarea type="text" cols="30" rows="5" name="body" class="form-control" id="body" placeholder="Enter Description"></textarea>
                 </div>
-
-
-
+                
+                
                 <div class="form-group mb-3">
                     <label for="allowComments">
                         <input type="checkbox" name="allowComments" class="form-check-input" id="allowComments">
                         Allow Comment
                     </label>
                 </div>
+
+                <div class="col-md-6">
+                     <style>
+                        /* Custom styling for the file input */
+                        .custom-file-label::after {
+                            content: "Browse"; /* Change the label text */
+                        }
+                        /* Style the image preview container */
+                        .image-preview {
+                            text-align: center;
+                            margin-top: 10px;
+                        }
+                        /* Style the default image */
+                        .default-image {
+                            border: 1px solid #ccc;
+                            padding: 5px;
+                            margin-right: 100%; 
+                        }
+                    </style>
+                    <div class="form-group mb-3">
+                        <label for="file" class="fw-bold">File Upload</label>
+                        <div class="custom-file">
+                            <input type="file" name="file" accept="image/*" id="inpfile" class="custom-file-input" id="file">
+                            <label class="custom-file-label" for="inpfile">File Upload</label>
+                        </div>
+                        <div class="image-preview mt-2">
+                            <img id="image-preview" width="100" class="default-image" src="/img/{{posts.file}}" alt="Image">
+                        </div>
+                    </div>
+                </div>
             </div>
-                <button type="submit" class="btn btn-primary">Create Post</button>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Create News</button>
+        </form>
+
+        <hr><hr><hr>
+
+        <br><br>
+        <h1>Fetch News Post</h1>
+         <form action="/admin/posts/fetch-news" method="post">
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="posts">Posts</label>
+                        <input type="text" name="posts" class="form-control" id="posts" placeholder="How many news posts?" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="posts">Category</label>
+                        <input type="text" name="query" class="form-control" id="cates" placeholder="What news Category" required>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Generate News</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

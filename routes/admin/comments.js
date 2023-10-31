@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Post = require("../../models/Post");
 const Comment = require("../../models/Comment");
+const {userAuthenticated} = require("../../helpers/authentication");
 
 // appyling admin to all
 router.all("/*", (req, res, next)=> {
@@ -10,15 +11,84 @@ router.all("/*", (req, res, next)=> {
 });
 
 // comment index page view route
-router.get("/", (req, res)=> {
+router.get("/", userAuthenticated, (req, res)=> {
+    const perPage = 10;
+    const page = req.query.page || 1;
+
     Comment.find({})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
         .lean()
+        .sort({ _id: -1 })
         .then(comments=> {
+            // Calculate the starting serial number for each page
+            const startSerialNumber = (page - 1) * perPage + 1;
             // Add a serial number to each comments object
             comments.forEach((comment, index) => {
-                comment.serialNumber = index + 1;
+                comment.serialNumber = startSerialNumber + index;
             });
-        res.render("admin/comments", {comments: comments});
+
+            Comment.count({}).then(comCount=> {
+                res.render("admin/comments", {
+                    comments: comments,
+                    current: parseInt(page),
+                    pages: Math.ceil(comCount / perPage)
+                });
+            });
+    });
+});
+
+// approved comment page view route
+router.get("/approved-comments", (req, res)=> {
+    const perPage = 10;
+    const page = req.query.page || 1;
+
+    Comment.find({ approveComment: true })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .lean()
+        .sort({ _id: -1 })
+        .then(comments=> {
+            // Calculate the starting serial number for each page
+            const startSerialNumber = (page - 1) * perPage + 1;
+            // Add a serial number to each comments object
+            comments.forEach((comment, index) => {
+                comment.serialNumber = startSerialNumber + index ;
+            });
+            Comment.count({}).then(comCount=> {
+                res.render("admin/comments/approved-comments", {
+                    comments: comments,
+                    current: parseInt(page),
+                    pages: Math.ceil(comCount / perPage)
+                });
+            });
+    });
+});
+
+// unapproved comment page view route
+router.get("/unapproved-comments", (req, res)=> {
+    const perPage = 10;
+    const page = req.query.page || 1;
+
+    Comment.find({ approveComment: false })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .lean()
+        .sort({ _id: -1 })
+        .then(comments=> {
+            // Calculate the starting serial number for each page
+            const startSerialNumber = (page - 1) * perPage + 1;
+            // Add a serial number to each comments object
+            comments.forEach((comment, index) => {
+                comment.serialNumber = startSerialNumber + index;
+            });
+            Comment.count({}).then(comCount=> {
+                res.render("admin/comments/unapproved-comments", {
+                    comments: comments,
+                    current: parseInt(page),
+                    pages: Math.ceil(comCount / perPage)
+                });
+            });
     });
 });
 
@@ -30,15 +100,23 @@ router.post("/", (req, res)=> {
             email: req.body.email,
             body: req.body.body
         });
-
         post.comments.push(newComment);
         post.save().then(savedPost=> {
             newComment.save().then(savedComment=> {
                 req.flash("success_message", "Comment Submitted Successfully");
-                res.redirect(`/post/${post._id}`);
+                res.redirect(`/post/${post.slug}`);
             })
         });
     });
+});
+
+// Individual comment page view  route
+router.get("/view_comment/:slug", (req, res) => {
+    Comment.findOne({slug: req.params.slug})
+        .lean()
+        .then(comments => {
+            res.render("admin/comments/view_comment", {comments: comments});
+        });
 });
 
 // Delete comment route
@@ -56,8 +134,4 @@ router.post("/approve-comment", (req, res)=> {
         res.send(updated);
     });
 });
-
-
-
-
 module.exports = router;

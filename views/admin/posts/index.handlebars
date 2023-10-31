@@ -1,38 +1,40 @@
-<h1>All posts</h1>
-
-
-<table class="table table-responsive" width="100">
+<h1>All News Posts</h1>
+<table class="table datatable" width="100">
     <thead>
         <tr>
             <th>S/N</th>
-            <th>Post Image</th>
+            <th>News Post Image</th>
             <th>Title</th>
             <th>Category</th>
             <th>Status</th>
             <th>Allow Comments</th>
-            <th>View Post</th>
             <th>Date</th>
-            
         </tr>
     </thead>
     <tbody>
         {{#each posts}}
             <tr>
                 <td>{{serialNumber}}</td>
-                <td><img src="/uploads/{{file}}" width="90" alt="post-image"></td>
-                <td>{{title}}</td>
+                <td><img src="/img/{{file}}" width="90" alt="post-image"></td>
+                <td><a class="text-primary fw-bold" href="/post/{{slug}}">{{title}}</a></td>
                 <td>{{category.name}}</td>
-                <td>{{status}}</td>
+                <td class="fw-bold {{statusClass}}">{{status}}</td>
                 <td>{{allowComments}}</td>
-                <td><a href="/post/{{slug}}">View</a></td>
                 <td>{{generateDate date "MMMM Do YYYY"}}</td>
-                <td><a href="/admin/posts/edit/{{_id}}" class="btn btn-info">Edit</a></td>
+                <td><a href="/admin/posts/edit/{{slug}}" class="btn btn-info">Edit <i class="bi bi-exclamation-triangle"></i></a></td>
                 <td>
-                    <form action="/admin/posts/{{_id}}?_method=DELETE" method="post">
-                        <button type="Submit" class="btn btn-danger">Delete</button>
+                    <form action="/admin/posts/{{slug}}?_method=DELETE" method="post">
+                        <button type="submit" class="btn btn-danger">Delete <i class="bi bi-exclamation-octagon"></i></button>
                     </form>
                 </td>
             </tr>
+        {{else}}
+            <h1 class="text-bold text-bg-danger text-center">No News Post found.</h1>
         {{/each}}
     </tbody>
 </table>
+
+<!-- Display pagination controls -->
+<ul class="pagination">
+    {{#paginate current=current pages=pages}}{{/paginate}}
+</ul>
